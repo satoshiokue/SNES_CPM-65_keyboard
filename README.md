@@ -23,6 +23,8 @@ Pin4  Data     D4
 Pin7  Ground
 ```
 
+**USB Host Shieldは5V使用にします。**
+
 ## スーパーファミコン用CP/M-65ファイルの入手
 こちらの How? にある Download a binaly release 先にあるファイル snes.smc を取得します。  
 https://github.com/davidgiven/cpm65
