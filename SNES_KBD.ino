@@ -151,7 +151,10 @@ static int currentChar = -1;
 void setup()
 {
   Serial.begin( 115200 );
-  while (!Serial);
+//  while (!Serial);
+  unsigned long t0 = millis();
+  // 2秒待つだけで、開かなければ先に進む
+  while (!Serial && millis() - t0 < 2000) {}
   Serial.println("Start");
 
   if (Usb.Init() == -1)
@@ -159,7 +162,7 @@ void setup()
   delay( 200 );
 
   R_PORT1->PCNTR1 |= 1 << 3;        // P103(Data) Output
-  R_PORT1->PODR &= ~(1 << 3);       // P103(Data) Low
+  R_PORT1->PODR |= 1 << 3;          // P103(Data) High
 
   HidKeyboard.SetReportParser(0, &Prs);
 }
@@ -176,70 +179,69 @@ void loop()
     }
 
     if (currentChar & 0x80) {
-      R_PORT1->PODR |= 1 << 3;        // P103(Data) High
-    } else {
       R_PORT1->PODR &= ~(1 << 3);     // P103(Data) Low
+    } else {
+      R_PORT1->PODR |= 1 << 3;        // P103(Data) High
     }
 
     while(R_PORT1->PIDR >> 4 & 0x01); // P104(Clock) 立ち下がり待ち
 
     if (currentChar & 0x40) {
-      R_PORT1->PODR |= 1 << 3;
+      R_PORT1->PODR &= ~(1 << 3);     // P103(Data) Low
     } else {
-      R_PORT1->PODR &= ~(1 << 3);
+      R_PORT1->PODR |= 1 << 3;        // P103(Data) High
     }
 
     while(R_PORT1->PIDR >> 4 & 0x01);
 
     if (currentChar & 0x20) {
-      R_PORT1->PODR |= 1 << 3;
+      R_PORT1->PODR &= ~(1 << 3);     // P103(Data) Low
     } else {
-      R_PORT1->PODR &= ~(1 << 3);
+      R_PORT1->PODR |= 1 << 3;        // P103(Data) High
     }
 
     while(R_PORT1->PIDR >> 4 & 0x01);
 
     if (currentChar & 0x10) {
-      R_PORT1->PODR |= 1 << 3;
+      R_PORT1->PODR &= ~(1 << 3);     // P103(Data) Low
     } else {
-      R_PORT1->PODR &= ~(1 << 3);
+      R_PORT1->PODR |= 1 << 3;        // P103(Data) High
     }
 
     while(R_PORT1->PIDR >> 4 & 0x01);
 
     if (currentChar & 0x08) {
-      R_PORT1->PODR |= 1 << 3;
+      R_PORT1->PODR &= ~(1 << 3);     // P103(Data) Low
     } else {
-      R_PORT1->PODR &= ~(1 << 3);
+      R_PORT1->PODR |= 1 << 3;        // P103(Data) High
     }
 
     while(R_PORT1->PIDR >> 4 & 0x01);
 
     if (currentChar & 0x04) {
-      R_PORT1->PODR |= 1 << 3;
+      R_PORT1->PODR &= ~(1 << 3);     // P103(Data) Low
     } else {
-      R_PORT1->PODR &= ~(1 << 3);
+      R_PORT1->PODR |= 1 << 3;        // P103(Data) High
     }
 
     while(R_PORT1->PIDR >> 4 & 0x01);
 
     if (currentChar & 0x02) {
-      R_PORT1->PODR |= 1 << 3;
+      R_PORT1->PODR &= ~(1 << 3);     // P103(Data) Low
     } else {
-      R_PORT1->PODR &= ~(1 << 3);
+      R_PORT1->PODR |= 1 << 3;        // P103(Data) High
     }
 
     while(R_PORT1->PIDR >> 4 & 0x01);
 
     if (currentChar & 0x01) {
-      R_PORT1->PODR |= 1 << 3;
+      R_PORT1->PODR &= ~(1 << 3);     // P103(Data) Low
     } else {
-      R_PORT1->PODR &= ~(1 << 3);
+      R_PORT1->PODR |= 1 << 3;        // P103(Data) High
     }
 
     while(R_PORT1->PIDR >> 4 & 0x01);
 
-    R_PORT1->PODR &= ~(1 << 3);     // P103(Data) Low
+      R_PORT1->PODR |= 1 << 3;        // P103(Data) High
   }
 }
-
